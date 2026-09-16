@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CreditFix Kit — Order confirmed</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://creditfixkit.mehyar.us/success.html">
+<meta name="description" content="Your CreditFix Kit order is confirmed. Your personalized kit PDF is being generated.">
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a1128">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html"><img src="logo.png" alt="CreditFix Kit logo">Credit<span>Fix</span>&nbsp;Kit</a>
+    <nav class="nav">
+      <a href="index.html#teaser">Free explainer</a>
+      <a href="index.html#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="centered">
+    <div class="check">✓</div>
+    <h1>You're in. Your kit is on its way.</h1>
+    <p class="lede">Payment confirmed. Your personalized CreditFix Kit PDF is being generated — usually within a couple of minutes — and will be emailed to you.</p>
+    <div class="progress-steps" id="progress">
+      <span class="pstep done" id="ps-paid">✓ Payment received</span>
+      <span class="pstep active" id="ps-gen">Generating your kit…</span>
+      <span class="pstep" id="ps-ready">Ready to download</span>
+    </div>
+    <p class="status busy" id="status-line" role="status">Checking your order status…</p>
+    <div id="actions" style="margin-top:18px"></div>
+  </section>
+
+  <section>
+    <h2>Already have your access token?</h2>
+    <p class="lede">The email we send you carries a private access token. Paste it here to jump straight to your kit.</p>
+    <form id="token-form" novalidate>
+      <div class="token-form">
+        <input type="text" id="token-input" placeholder="paste your token" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button type="submit" class="btn btn-primary">View my kit</button>
+      </div>
+      <div class="status" id="token-status"></div>
+    </form>
+    <p class="lede" style="font-size:14px;margin-top:12px">No token yet? It arrives with your receipt email — usually within a minute.</p>
+  </section>
+
+  <section>
+    <div class="whatyouget" style="background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px">
+      <h3>What happens next</h3>
+      <ol class="steps">
+        <li><strong>We generate your kit</strong><p>Your intake (name, situation, accounts) is merged into the letter templates and your 12-month plan.</p></li>
+        <li><strong>You get an email</strong><p>Usually within minutes: your kit PDF plus a private link with your access token.</p></li>
+        <li><strong>It lives at your private link</strong><p>deliverable.html with your token — download the PDF anytime.</p></li>
+      </ol>
+    </div>
+    <div class="disclaimer-strip"><strong>Disclaimer:</strong> General information only — not legal or financial advice. Consider consulting a licensed attorney or certified financial professional.</div>
+  </section>
+</main>
+
+<footer>
+  <div class="inner footer-grid">
+    <p class="footer-disclaimer"><strong>Disclaimer:</strong> General information only — not legal or financial advice. Consider consulting a licensed attorney or certified financial professional. CreditFix Kit does not guarantee score increases or the removal of any specific item; results vary.</p>
+    <div class="footer-base">
+      <span>© 2026 CreditFix Kit. $47 one-time, honesty included.</span>
+      <span><a href="index.html#faq">FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:info@mehyar.us">Contact</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+"use strict";
+/* Success page: polls order status by token and drives the buyer to the kit.
+ * Polls BOTH the centralized payment status endpoint and the kit deliverable
+ * endpoint; either one reporting ready unlocks the download link.
+ * A failed generation exposes a Retry button (idempotent re-POST). */
+(function () {
+  var qs = new URLSearchParams(window.location.search);
+  var token = qs.get("token") || "";
+  var statusLine = document.getElementById("status-line");
+  var actions = document.getElementById("actions");
+  var polls = 0, maxPolls = 40;
+
+  function setStep(id, cls) {
+    var el = document.getElementById(id);
+    if (el) el.className = "pstep " + cls;
+  }
+  function markPaid() { setStep("ps-paid", "done"); }
+  function markGenerating() { setStep("ps-gen", "active"); setStep("ps-ready", ""); }
+  function markReady() { setStep("ps-gen", "done"); setStep("ps-ready", "done"); }
+  function markFailed() { setStep("ps-gen", "failed"); }
+
+  function readyUI() {
+    markReady();
+    statusLine.textContent = "Your kit is ready.";
+    statusLine.className = "status ok";
+    actions.innerHTML =
+      '<a class="btn btn-primary" href="deliverable.html?token=' + encodeURIComponent(token) + '">Open my kit</a>';
+  }
+  function failedUI() {
+    markFailed();
+    statusLine.textContent = "Generation hit a snag — your payment is fine. Retry below.";
+    statusLine.className = "status error";
+    actions.innerHTML = '<button class="btn btn-primary" id="retry-btn">Retry generation</button>';
+    document.getElementById("retry-btn").addEventListener("click", retryGenerate);
+  }
+
+  function checkDeliverable() {
+    return fetch("/api/creditfix/deliverable?token=" + encodeURIComponent(token), { cache: "no-store" })
+      .then(function (r) { return r.json().then(function (j) { return { status: r.status, body: j }; }); })
+      .then(function (res) {
+        var b = res.body;
+        if (b && b.ok === true) { readyUI(); return true; }
+        if (b && b.error === "not_ready" && b.status === "failed") {
+          failedUI(); return true; // stop polling; Retry is idempotent
+        }
+        if (b && b.error === "not_ready") {
+          markPaid(); markGenerating();
+          statusLine.textContent = "Generating your kit… (" + (b.status || "working") + ")";
+          statusLine.className = "status busy";
+          return false;
+        }
+        return null; // unknown token etc.
+      }).catch(function () { return null; });
+  }
+
+  function checkPayStatus() {
+    // Centralized payment status (mehyar.us). Best-effort: never blocks.
+    return fetch("https://mehyar.us/api/pay/status?token=" + encodeURIComponent(token), { cache: "no-store" })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (j && j.ok === true) markPaid();
+        return j;
+      }).catch(function () { return null; });
+  }
+
+  function retryGenerate() {
+    statusLine.textContent = "Retrying generation…";
+    statusLine.className = "status busy";
+    actions.innerHTML = "";
+    fetch("/api/creditfix/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ order_token: token })
+    }).then(function (r) { return r.json(); }).then(function (j) {
+      if (j && j.ok) { readyUI(); }
+      else { failedUI(); }
+    }).catch(failedUI);
+  }
+
+  function poll() {
+    if (!token) {
+      statusLine.textContent = "No token in this URL yet — your receipt email carries it.";
+      statusLine.className = "status";
+      return;
+    }
+    Promise.all([checkDeliverable(), checkPayStatus()]).then(function (res) {
+      var done = res[0] === true;
+      if (done) return;
+      if (res[0] === null) {
+        statusLine.textContent = "We couldn't find that token — check your receipt email for the exact link.";
+        statusLine.className = "status error";
+        return;
+      }
+      polls++;
+      if (polls < maxPolls) setTimeout(poll, 5000);
+      else {
+        statusLine.textContent = "Still working — check your email, or retry below.";
+        failedUI();
+      }
+    });
+  }
+
+  var tf = document.getElementById("token-form");
+  tf.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var t = document.getElementById("token-input").value.trim();
+    if (t.length < 16) {
+      document.getElementById("token-status").textContent = "That doesn't look like a token — paste the full value from your email.";
+      document.getElementById("token-status").className = "status error";
+      return;
+    }
+    window.location.href = "deliverable.html?token=" + encodeURIComponent(t);
+  });
+
+  poll();
+})();
+</script>
+</body>
+</html>
