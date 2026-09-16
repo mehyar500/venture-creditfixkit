@@ -1,0 +1,24 @@
+# wrangler.toml — CreditFix Kit (Cloudflare Pages project: creditfixkit)
+#
+# IMPORTANT: this file deliberately has NO [vars] section. The project's
+# dashboard/plain env vars must never be replaced by a deploy. Bindings below
+# are the full binding set for this project, so a deploy sync is idempotent.
+
+name = "creditfixkit"
+compatibility_date = "2026-09-15"
+
+# Workers AI binding — [ai] must be a SINGLE table (not [[ai]]) for
+# `wrangler pages deploy` to attach it.
+[ai]
+binding = "AI"
+
+# Shared D1: billing_products/billing_payments + creditfixkit_orders/leads.
+[[d1_databases]]
+binding = "LEADS_DB"
+database_name = "mehyar_leads_prod"
+database_id = "e4f22065-e3e8-4772-87a8-51d4976be042"
+
+# Generated kit PDFs (token-gated; never public).
+[[r2_buckets]]
+binding = "DELIVERABLES"
+bucket_name = "creditfixkit-deliverables"
