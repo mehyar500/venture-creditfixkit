@@ -11,15 +11,16 @@
 var DEV_MODE = new URLSearchParams(window.location.search).get("dev") === "1";
 var CHECKOUT_URL = "https://mehyar.us/api/pay/checkout";
 var TEASER_URL = "/api/creditfix/teaser";
-var SUBSCRIBE_URL = "/api/creditfix/subscribe";
 
 var PRODUCT = {
   id: "creditfix-kit",
   name: "CreditFix Kit",
-  price: "$47",
-  success_url: "https://creditfixkit.mehyar.us/success.html",
-  cancel_url: "https://creditfixkit.mehyar.us/#pricing"
+  price: "$47"
 };
+/* NOTE: return URLs are NOT sent by the PWA. The server fills them from the
+ * billing_products.success_url_template / cancel_url row for this SKU, which
+ * carries ?token={access_token} on success. Client overrides would drop the
+ * token, so they are deliberately omitted from the checkout payload. */
 
 /* ---------- helpers ---------- */
 function $(sel, root) { return (root || document).querySelector(sel); }
@@ -49,9 +50,8 @@ function checkoutPayload(email, params) {
   var payload = {
     product_id: PRODUCT.id,
     email: email,
-    params: params,
-    success_url: PRODUCT.success_url,
-    cancel_url: PRODUCT.cancel_url
+    params: params
+    /* no success_url / cancel_url: server uses the D1 tokenized template */
   };
   if (DEV_MODE) payload.test = true; // dev checkout only ever hits test mode
   return payload;
@@ -156,46 +156,15 @@ function submitTeaser(ev) {
   });
 }
 
-/* ---------- subscribe ---------- */
-function initSubscribeForms() {
-  $all("[data-subscribe-form]").forEach(function (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var msg = form.querySelector(".subscribe-msg");
-      var btn = form.querySelector('button[type="submit"]');
-      var email = form.email ? form.email.value.trim() : "";
-      if (!validEmail(email)) {
-        if (msg) { msg.hidden = false; msg.textContent = "Please enter a valid email address."; }
-        return;
-      }
-      if (btn) { btn.disabled = true; btn.textContent = "Subscribing…"; }
-      fetch(SUBSCRIBE_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email, situation: ($("#teaser-situation") || {}).value || null })
-      }).then(function (r) { return r.json(); }).then(function (j) {
-        if (msg) {
-          msg.hidden = false;
-          msg.textContent = j && j.ok
-            ? "You're in — credit tips, occasionally. Unsubscribe anytime."
-            : "Hmm, that didn't go through. Try again in a bit.";
-        }
-        if (j && j.ok) form.reset();
-      }).catch(function () {
-        if (msg) { msg.hidden = false; msg.textContent = "Hmm, that didn't go through. Try again in a bit."; }
-      }).finally(function () {
-        if (btn) { btn.disabled = false; btn.textContent = "Subscribe"; }
-      });
-    });
-  });
-}
-
 /* ---------- global wiring ---------- */
 document.addEventListener("DOMContentLoaded", function () {
   $all("[data-buy]").forEach(function (btn) {
     btn.addEventListener("click", openBuyModal);
   });
-  initSubscribeForms();
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !$("#buy-modal").hidden) closeBuyModal();
+  });
 
   if (DEV_MODE && document.body) {
     var banner = document.createElement("div");

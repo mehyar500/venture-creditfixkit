@@ -314,19 +314,8 @@ footer .inner { max-width: var(--maxw); margin: 0 auto; padding: 28px 20px; colo
 footer a { color: var(--muted); }
 footer a:hover { color: var(--accent); }
 .footer-grid { display: flex; flex-direction: column; gap: 20px; }
-.subscribe-block { background: #0d1630; border: 1px solid #22305a; border-radius: 14px; padding: 20px; }
-.subscribe-block strong { font-size: 16px; }
-.subscribe-block .muted { margin: 6px 0 12px; font-size: 14px; }
-.subscribe-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-.subscribe-form input[type="email"] {
-  background: #080d20; border: 1px solid #2a3a6b; color: #eef2fc;
-  border-radius: 10px; padding: 10px 12px; font-size: 15px; flex: 2 1 200px;
-}
-.subscribe-form input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-.subscribe-msg { font-size: 14px; color: var(--accent); margin: 0; }
 .footer-base { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
 .footer-disclaimer { font-size: 12px; color: var(--muted); max-width: 720px; line-height: 1.6; }
-@media (max-width: 560px) { .subscribe-row .btn { width: 100%; } }
 
 /* ---------- legal pages ---------- */
 .legal { max-width: 820px; margin: 0 auto; padding: 48px 20px 64px; }
@@ -357,7 +346,29 @@ footer a:hover { color: var(--accent); }
 .sticky-cta-text { font-size: 14px; color: var(--muted); }
 .sticky-cta-text strong { color: var(--text); font-size: 16px; }
 .sticky-cta .btn { padding: 12px 20px; font-size: 15px; white-space: nowrap; min-height: 48px; }
+.sticky-x {
+  background: none; border: 0; color: var(--muted); font-size: 22px; line-height: 1;
+  width: 40px; height: 40px; cursor: pointer; flex-shrink: 0; border-radius: 10px;
+}
+.sticky-x:hover { color: var(--text); background: rgba(255,255,255,.06); }
 @media (min-width: 720px) { .sticky-cta { display: none !important; } }
+
+/* sample pages strip */
+.sample-strip { margin-top: 34px; }
+.sample-title { font-size: 20px; margin: 0 0 4px; }
+.sample-sub { margin-top: 0; }
+.sample-pages { display: grid; gap: 16px; margin-top: 18px; }
+@media (min-width: 720px) { .sample-pages { grid-template-columns: 1fr 1fr; max-width: 860px; margin-left: auto; margin-right: auto; } }
+.sample-page {
+  margin: 0; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0,0,0,.35);
+}
+.sample-page img { display: block; width: 100%; height: auto; }
+.sample-page figcaption {
+  padding: 12px 16px; font-size: 14px; color: var(--muted);
+  border-top: 1px solid var(--line);
+}
 
 @media (pointer: coarse) {
   .btn { min-height: 48px; }

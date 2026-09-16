@@ -72,7 +72,7 @@ https://creditfixkit.mehyar.us/success.html?token={access_token}
 - looks up `creditfixkit_orders` by `access_token`; 404 on bogus token
 - requires status `paid|failed`; `ready` → `{ok:true, replay:true, manifest}`
 - `inputs` merge over stored intake, then `buildKit()` → `renderKitPdf()`
-- R2 put → `creditfix/pdfs/<token>.pdf` (binding name: `env.DELIVERABLES`,
+- R2 put → `pdfs/<token>.pdf` (binding name: `env.DELIVERABLES`,
   contentType `application/pdf`)
 - UPDATE `status='ready'`, `output_json` = manifest
   `{ok,name,situation,situation_label,goal,goal_label,pages,letters:[{id,title}],plan_months,pdf_url,generat

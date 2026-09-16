@@ -184,11 +184,11 @@ function renderKitPdf(kit) {
 
   function emitLine(x, yy, segs, size, leading) {
     // segs: [{t, font:'F1'|'F2'|'F3'}]
-    let s = "BT " + segs[0].font + " " + size + " Tf " + leading + " TL " +
+    let s = "BT /" + segs[0].font + " " + size + " Tf " + leading + " TL " +
             x.toFixed(1) + " " + yy.toFixed(1) + " Td";
     let curFont = segs[0].font;
     segs.forEach((sg) => {
-      if (sg.font !== curFont) { s += " " + sg.font + " " + size + " Tf"; curFont = sg.font; }
+      if (sg.font !== curFont) { s += " /" + sg.font + " " + size + " Tf"; curFont = sg.font; }
       s += " (" + escPdf(sg.t) + ") Tj";
     });
     ops.push(s + " ET");

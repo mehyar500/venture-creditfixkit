@@ -130,6 +130,20 @@
         </div>
       </div>
     </div>
+    <div class="sample-strip reveal">
+      <h3 class="sample-title">Straight from the kit.</h3>
+      <p class="sec-sub sample-sub">Sample pages from a real generated PDF — yours is built around your name, situation, and accounts.</p>
+      <div class="sample-pages">
+        <figure class="sample-page">
+          <img src="sample-letters.png" alt="Sample page from the CreditFix Kit PDF showing a debt validation letter template" loading="lazy" width="404" height="522">
+          <figcaption>The letter templates — your name merged in</figcaption>
+        </figure>
+        <figure class="sample-page">
+          <img src="sample-plan.png" alt="Sample page from the CreditFix Kit PDF showing the month-by-month 12-month rebuild plan" loading="lazy" width="404" height="522">
+          <figcaption>The 12-month plan — month by month</figcaption>
+        </figure>
+      </div>
+    </div>
     <div class="disclaimer-strip reveal">
       <strong>Important:</strong> General information only — not legal or financial advice. Consider consulting a licensed attorney or certified financial professional.
     </div>
@@ -213,17 +227,6 @@
 
 <footer>
   <div class="inner footer-grid">
-    <div class="subscribe-block">
-      <strong>Credit repair tips, occasionally</strong>
-      <p class="muted">One short email when we update the templates or add new letters. No spam — unsubscribe anytime.</p>
-      <form class="subscribe-form" data-subscribe-form novalidate>
-        <div class="subscribe-row">
-          <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address (required)" autocomplete="email">
-          <button class="btn btn-primary" type="submit">Subscribe</button>
-          <p class="subscribe-msg" role="status" hidden></p>
-        </div>
-      </form>
-    </div>
     <p class="footer-disclaimer"><strong>Disclaimer:</strong> General information only — not legal or financial advice. Consider consulting a licensed attorney or certified financial professional. CreditFix Kit does not guarantee score increases or the removal of any specific item; results vary.</p>
     <div class="footer-base">
       <span>© 2026 CreditFix Kit. $47 one-time, honesty included.</span>
@@ -236,6 +239,7 @@
 <div class="sticky-cta" id="sticky-cta" hidden>
   <span class="sticky-cta-text"><strong>$47</strong> one-time · free explainer first</span>
   <a class="btn btn-primary" href="#pricing">Get the kit</a>
+  <button class="sticky-x" id="sticky-x" aria-label="Dismiss">×</button>
 </div>
 
 <!-- Buy modal with intake form -->
@@ -310,9 +314,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* sticky mobile CTA */
   var sticky = document.getElementById("sticky-cta");
+  var stickyDismissed = false;
+  var stickyX = document.getElementById("sticky-x");
+  if (stickyX) stickyX.addEventListener("click", function () {
+    stickyDismissed = true; sticky.hidden = true;
+  });
   var footer = document.querySelector("footer");
   function updateSticky() {
-    if (window.innerWidth >= 720) { sticky.hidden = true; return; }
+    if (window.innerWidth >= 720 || stickyDismissed) { sticky.hidden = true; return; }
     var past = window.scrollY > 520;
     var footVisible = footer && footer.getBoundingClientRect().top < window.innerHeight;
     sticky.hidden = !(past && !footVisible);
