@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CreditFix Kit — Your kit</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://creditfixkit.mehyar.us/deliverable.html">
+<meta name="description" content="Your personalized CreditFix Kit — download your PDF.">
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a1128">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html"><img src="logo.png" alt="CreditFix Kit logo">Credit<span>Fix</span>&nbsp;Kit</a>
+    <nav class="nav">
+      <a href="index.html#teaser">Free explainer</a>
+      <a href="index.html#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div id="deliverable-host"></div>
+</main>
+
+<footer>
+  <div class="inner footer-grid">
+    <p class="footer-disclaimer"><strong>Disclaimer:</strong> General information only — not legal or financial advice. Consider consulting a licensed attorney or certified financial professional. CreditFix Kit does not guarantee score increases or the removal of any specific item; results vary.</p>
+    <div class="footer-base">
+      <span>© 2026 CreditFix Kit. $47 one-time, honesty included.</span>
+      <span><a href="index.html#faq">FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:info@mehyar.us">Contact</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+"use strict";
+/* Deliverable viewer: token-gated. Fetches /api/creditfix/deliverable?token=
+ * and renders the kit manifest summary + big PDF download button.
+ * DEV (?dev=1): renders a sample manifest so the layout is reviewable. */
+document.addEventListener("DOMContentLoaded", function () {
+  var host = document.getElementById("deliverable-host");
+  var qs = new URLSearchParams(window.location.search);
+  var token = qs.get("token");
+
+  function noToken(msg) {
+    host.innerHTML =
+      '<section class="centered"><h1>No token provided.</h1>' +
+      '<p class="lede">' + esc(msg || "This page needs the access token from your delivery email.") + "</p>" +
+      '<a class="btn btn-primary" href="success.html">Enter your token</a></section>';
+  }
+
+  if (!token) { noToken(); return; }
+
+  if (DEV_MODE) { renderManifest(host, SAMPLE_MANIFEST, token, true); return; }
+
+  host.innerHTML = '<section class="centered"><p class="lede">Loading your kit…</p></section>';
+  fetch("/api/creditfix/deliverable?token=" + encodeURIComponent(token), { cache: "no-store" })
+    .then(function (r) { return r.json().then(function (j) { return { status: r.status, body: j }; }); })
+    .then(function (res) {
+      var b = res.body;
+      if (!b || b.ok !== true) {
+        var msg = (b && b.error) || ("HTTP " + res.status);
+        if (msg === "not_ready") {
+          host.innerHTML =
+            '<section class="centered"><h1>Still in the oven.</h1>' +
+            '<p class="lede">Your kit is being generated — usually within a couple of minutes. This page shows it as soon as it\'s ready; no need to re-enter your token. It\'s also emailed to ' + esc(b.email || "you") + ".</p>" +
+            '<a class="btn btn-ghost" href="success.html?token=' + encodeURIComponent(token) + '">Check status</a></section>';
+        } else {
+          host.innerHTML =
+            '<section class="centered"><h1>Token not found.</h1>' +
+            '<p class="lede">That token doesn\'t match any kit (' + esc(msg) + '). Check your email for the exact link.</p></section>';
+        }
+        return;
+      }
+      renderManifest(host, b.manifest, token, false, b.email);
+    })
+    .catch(function () {
+      host.innerHTML =
+        '<section class="centered"><h1>Couldn\'t load.</h1>' +
+        '<p class="lede">The kit service didn\'t respond. Check your connection and reload.</p></section>';
+    });
+});
+
+function renderManifest(host, m, token, isDev, email) {
+  var html = '<a class="back" style="display:inline-block;margin:22px 0 0;color:var(--muted);text-decoration:none;font-size:14px" href="index.html">← Back home</a>';
+  html += '<section class="feature-hero" style="margin-top:10px"><p class="eyebrow">Your kit</p>';
+  html += "<h1>Your CreditFix Kit is ready</h1>";
+  html += '<p class="lede">Prepared for <strong>' + esc(m.name || "you") + "</strong>" +
+    (m.situation_label ? " · Situation: " + esc(m.situation_label) : "") +
+    (m.goal_label ? " · Goal: " + esc(m.goal_label) : "") + "</p>";
+  if (m.generated_at) html += '<p class="turnaround" style="color:var(--muted);font-size:14px">Generated ' + esc(String(m.generated_at).slice(0, 10)) + "</p>";
+  html += "</section>";
+
+  if (isDev) {
+    html += '<div class="dev-fallback" style="border:1px dashed var(--line);border-radius:14px;padding:18px;color:var(--muted);font-size:14px;background:var(--surface);margin-top:18px"><strong>Dev sample.</strong> In production this page fetches the manifest for your token and renders the real kit.</div>';
+  }
+
+  html += '<section class="report"><h3>What\'s inside</h3><ul style="margin:0;padding-left:20px">';
+  html += "<li>The 5 FICO score factors, translated to your situation (" + esc(m.situation_label || "") + ")</li>";
+  (m.letters || []).forEach(function (l) { html += "<li>" + esc(l.title) + "</li>"; });
+  html += "<li>Your personalized " + esc(String(m.plan_months || 12)) + "-month rebuild plan</li>";
+  html += "<li>Certified-mail checklist + honest limits</li></ul>";
+  if (m.pages) html += '<p style="color:var(--muted);font-size:14px;margin-bottom:0">' + esc(String(m.pages)) + "-page PDF, generated just for you.</p>";
+  html += "</section>";
+
+  html += '<section class="centered" style="padding-top:24px">';
+  html += '<a class="btn btn-primary" style="padding:18px 44px;font-size:18px" href="' +
+    esc(m.pdf_url || ("/api/creditfix/pdf?token=" + encodeURIComponent(token))) +
+    '" download="creditfix-kit.pdf">⬇ Download your kit PDF</a>';
+  html += '<p class="lede" style="margin-top:14px;font-size:14px">📧 Also emailed to ' + esc(email || "you") + " — keep this link; your token downloads it anytime.</p>";
+  html += "</section>";
+
+  html += '<section><div class="disclaimer-strip"><strong>Disclaimer:</strong> General information only — not legal or financial advice. Consider consulting a licensed attorney or certified financial professional. CreditFix Kit does not guarantee score increases or the removal of any specific item; results vary.</div></section>';
+
+  host.innerHTML = html;
+}
+
+var SAMPLE_MANIFEST = {
+  name: "Sample Buyer",
+  situation_label: "Collections",
+  goal_label: "buying a home",
+  generated_at: "2026-09-15",
+  pages: 14,
+  letters: [
+    { id: "letter-1", title: "Letter 1 -- Initial dispute to the credit bureaus (FCRA Sec. 611)" },
+    { id: "letter-2", title: "Letter 2 -- Debt validation request to a collection agency (FDCPA Sec. 809)" },
+    { id: "letter-3", title: "Letter 3 -- Goodwill adjustment request for late payments" }
+  ],
+  plan_months: 12,
+  pdf_url: "#"
+};
+</script>
+</body>
+</html>
