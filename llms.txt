@@ -1,0 +1,27 @@
+# CreditFix Kit
+
+DIY credit repair kit — $47 one-time. https://creditfixkit.mehyar.us/
+
+## What it is
+A personalized PDF kit: the 5 FICO score factors translated to the buyer's
+situation, 3 mail-ready letter templates (bureau dispute under FCRA Sec. 611,
+collector validation under FDCPA Sec. 809, goodwill adjustment for late
+payments), and a 12-month month-by-month rebuild plan adapted to the buyer's
+situation (collections / late-payments / thin-file / mixed).
+
+## Honesty rules (site-wide)
+- General information only — not legal or financial advice.
+- No guaranteed score increases, no promised removals. Results vary.
+
+## Free teaser
+POST /api/creditfix/teaser {situation, goal?} → score-factor explainer +
+locked letter previews. No auth, no email required.
+
+## Paid flow
+1. Buyer completes intake on the site → POST https://mehyar.us/api/pay/checkout
+   {product_id:"creditfix-kit", email, params:{name,situation,state,goal,accounts},
+   success_url, cancel_url} → Stripe.
+2. Webhook creates creditfixkit_orders (status paid, access_token) and triggers
+   POST /api/creditfix/generate {order_token}.
+3. Buyer downloads the PDF at /api/creditfix/pdf?token= or
+   deliverable.html?token=.
