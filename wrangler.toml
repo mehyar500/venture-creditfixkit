@@ -6,6 +6,7 @@
 
 name = "creditfixkit"
 compatibility_date = "2026-09-15"
+pages_build_output_dir = "."
 
 # Workers AI binding — [ai] must be a SINGLE table (not [[ai]]) for
 # `wrangler pages deploy` to attach it.
