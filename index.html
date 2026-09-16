@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CreditFix Kit — Fix your credit yourself. $47, one-time.</title>
+<meta name="description" content="The DIY credit repair kit: the dispute letters, the 12-month rebuild plan, the knowledge. Free score-factor explainer first. $47 one-time. General information only — not legal or financial advice.">
+<link rel="canonical" href="https://creditfixkit.mehyar.us/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CreditFix Kit">
+<meta property="og:title" content="CreditFix Kit — Fix your credit yourself. $47, one-time.">
+<meta property="og:description" content="Free score-factor explainer first. Then $47 unlocks the dispute letters + your 12-month rebuild plan. No subscription, no promises — honest DIY credit repair.">
+<meta property="og:url" content="https://creditfixkit.mehyar.us/">
+<meta property="og:image" content="https://creditfixkit.mehyar.us/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CreditFix Kit — Fix your credit yourself. $47, one-time.">
+<meta name="twitter:description" content="The dispute letters, the 12-month plan, the knowledge. Free explainer first.">
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a1128">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Product","name":"CreditFix Kit","url":"https://creditfixkit.mehyar.us/","image":"https://creditfixkit.mehyar.us/logo.png","description":"DIY credit repair kit: FCRA dispute letter templates, FDCPA validation and goodwill letters, and a personalized 12-month rebuild plan. $47 one-time. General information only — not legal or financial advice.","brand":{"@type":"Brand","name":"CreditFix Kit"},"offers":{"@type":"Offer","price":"47","priceCurrency":"USD","availability":"https://schema.org/InStock"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is this legal advice?","acceptedAnswer":{"@type":"Answer","text":"No. The CreditFix Kit is general information only — not legal or financial advice. Consider consulting a licensed attorney or certified financial professional, especially before paying old debts."}},
+{"@type":"Question","name":"Do you guarantee score increases?","acceptedAnswer":{"@type":"Answer","text":"No — nobody honest can. No letter or kit can guarantee a score increase or the removal of any specific item. The kit exercises rights you already have: disputing inaccurate information, demanding debt validation, and asking creditors for courtesy adjustments. Results vary."}},
+{"@type":"Question","name":"What exactly do I get for $47?","acceptedAnswer":{"@type":"Answer","text":"A personalized PDF kit: the 5 FICO score factors translated to your situation, 3 mail-ready letter templates (bureau dispute, collector validation, goodwill) with your details merged in, and a 12-month month-by-month rebuild plan adapted to your situation — plus a certified-mail checklist."}},
+{"@type":"Question","name":"Is there a subscription?","acceptedAnswer":{"@type":"Answer","text":"No. $47 one-time. The kit is yours forever."}},
+{"@type":"Question","name":"How do I get the kit after paying?","acceptedAnswer":{"@type":"Answer","text":"Your kit PDF is generated automatically and emailed to you, usually within minutes. You also get a private link (deliverable.html with your access token) where you can download it anytime."}}
+]}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html"><img src="logo.png" alt="CreditFix Kit logo">Credit<span>Fix</span>&nbsp;Kit</a>
+    <nav class="nav">
+      <a href="#teaser">Free explainer</a>
+      <a href="#inside">What's inside</a>
+      <a href="#faq">FAQ</a>
+      <a class="nav-cta" href="#pricing">Get the kit — $47</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ============ HERO ============ -->
+  <section class="hero hero-compact">
+    <p class="eyebrow">DIY credit repair — no subscription, no agency</p>
+    <h1>Fix your credit yourself — <span class="grad">the letters, the plan, the knowledge.</span></h1>
+    <p class="hero-sub">Start with a free explainer of the 5 score factors, personalized to your situation. Then unlock the full kit — dispute letters + 12-month rebuild plan — for $47, once.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#teaser">Get my free explainer</a>
+      <a class="btn btn-ghost" href="#pricing">Skip to the $47 kit</a>
+    </div>
+    <div class="trust-row">
+      <span>🔒 Secure Stripe checkout</span>
+      <span>📄 Yours forever — PDF</span>
+      <span>🚫 No score-increase promises, ever</span>
+    </div>
+  </section>
+
+  <!-- ============ FREE TEASER — FIRST ============ -->
+  <section id="teaser">
+    <div class="eyebrow-wrap"><p class="eyebrow">Free — no email required</p></div>
+    <h2 class="sec-title">See how your score actually works.</h2>
+    <p class="sec-sub">Pick your situation. Get the 5 FICO factors translated into what moves the needle for <em>you</em> — instantly, free.</p>
+    <div class="teaser-box reveal">
+      <form id="teaser-form" novalidate>
+        <div class="field">
+          <label for="teaser-situation">Which best describes your credit right now?</label>
+          <select id="teaser-situation" name="situation">
+            <option value="collections">Collections on my report</option>
+            <option value="late-payments">Late payments dragging me down</option>
+            <option value="thin-file">Thin file — barely any credit history</option>
+            <option value="mixed">Mixed — collections and late payments</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="teaser-goal">What's the goal?</label>
+          <select id="teaser-goal" name="goal">
+            <option value="rebuild-general">General rebuild</option>
+            <option value="buy-home">Buying a home</option>
+            <option value="buy-car">Buying a car</option>
+            <option value="lower-rates">Lowering my interest rates</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Show my free explainer</button>
+        <p class="status" id="teaser-status" role="status"></p>
+      </form>
+      <div id="teaser-result"></div>
+    </div>
+  </section>
+
+  <!-- ============ WHAT'S INSIDE ============ -->
+  <section id="inside">
+    <div class="eyebrow-wrap"><p class="eyebrow">The $47 kit</p></div>
+    <h2 class="sec-title">Everything you need to do it yourself.</h2>
+    <p class="sec-sub">A personalized PDF, generated for you — not a course, not a subscription, not a "credit repair company" taking monthly fees.</p>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="card-body">
+          <span class="tag">Knowledge</span>
+          <h3>The 5 score factors, personalized</h3>
+          <p class="teaser">Payment history 35%, amounts owed 30%, length of history 15%, new credit 10%, credit mix 10% — each translated into your situation: where to push, what to protect, what to ignore for now.</p>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card-body">
+          <span class="tag">Letters</span>
+          <h3>3 mail-ready letter templates</h3>
+          <p class="teaser"><strong>1.</strong> Initial dispute to the credit bureaus (FCRA §611) — with your accounts listed as disputed items. <strong>2.</strong> Debt validation demand to collectors (FDCPA §809). <strong>3.</strong> Goodwill adjustment ask for late payments. Your name merged in; each with a "before you mail" checklist.</p>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card-body">
+          <span class="tag">Plan</span>
+          <h3>Your 12-month rebuild plan</h3>
+          <p class="teaser">Month-by-month checklist adapted to your situation — collections get a months 1–3 dispute cycle with certified-mail tracking; thin files start with a secured card in month 1. Do not skip ahead: the sequence is the strategy.</p>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card-body">
+          <span class="tag">Honesty</span>
+          <h3>No hype. No guarantees.</h3>
+          <p class="teaser">Nobody honest can promise a score increase or the removal of any specific item — and we won't. What the kit does: exercise rights you already have. Many negative items contain errors worth disputing. Results vary.</p>
+        </div>
+      </div>
+    </div>
+    <div class="disclaimer-strip reveal">
+      <strong>Important:</strong> General information only — not legal or financial advice. Consider consulting a licensed attorney or certified financial professional.
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section id="how">
+    <div class="eyebrow-wrap"><p class="eyebrow">How it works</p></div>
+    <h2 class="sec-title">Three steps. No discovery call.</h2>
+    <ol class="steps">
+      <li class="reveal"><span class="step-icon">👁</span><strong>1. Free explainer</strong><p>Pick your situation above and see the 5 score factors translated to your case. Real value, no email required.</p></li>
+      <li class="reveal"><span class="step-icon">🔓</span><strong>2. $47 unlock</strong><p>Tell us your details (name, situation, accounts). Pay once via secure Stripe checkout. No subscription.</p></li>
+      <li class="reveal"><span class="step-icon">📄</span><strong>3. Kit in your inbox</strong><p>Your personalized PDF — letters, plan, explainer — is generated automatically and emailed to you, usually within minutes. Download it anytime from your private link.</p></li>
+    </ol>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section id="pricing">
+    <div class="eyebrow-wrap"><p class="eyebrow">Pricing</p></div>
+    <h2 class="sec-title">One price. Yours forever.</h2>
+    <div class="price-card reveal">
+      <div class="big">$47 <small>one-time</small></div>
+      <ul>
+        <li><strong>Personalized PDF kit</strong> — generated for your situation, goal, and accounts</li>
+        <li><strong>3 mail-ready letters</strong> — bureau dispute, collector validation, goodwill</li>
+        <li><strong>12-month rebuild plan</strong> — month-by-month, adapted to your situation</li>
+        <li><strong>Certified-mail checklist</strong> — so your paper trail holds up</li>
+        <li><strong>Free lifetime updates</strong> to the templates</li>
+      </ul>
+      <button class="btn btn-primary btn-block" data-buy="creditfix-kit">Get my CreditFix Kit — $47</button>
+      <p class="status" style="text-align:center;margin-top:10px">🔒 Secure checkout via Stripe · No subscription · Not legal advice</p>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq">
+    <div class="eyebrow-wrap"><p class="eyebrow">FAQ</p></div>
+    <h2 class="sec-title">Fair questions.</h2>
+    <div class="faq">
+      <details class="reveal">
+        <summary>Is this legal advice?</summary>
+        <p>No. The CreditFix Kit is general information only — not legal or financial advice. The letters are templates exercising rights under the FCRA and FDCPA. Consider consulting a licensed attorney or certified financial professional, especially before paying old debts.</p>
+      </details>
+      <details class="reveal">
+        <summary>Do you guarantee score increases?</summary>
+        <p>No — nobody honest can. No letter, service, or kit can guarantee a score increase or the removal of any specific item. Many negative items contain errors worth disputing, and results vary by file, creditor, and bureau.</p>
+      </details>
+      <details class="reveal">
+        <summary>What exactly do I get for $47?</summary>
+        <p>A personalized PDF: the 5 FICO score factors translated to your situation, 3 mail-ready letter templates (bureau dispute under FCRA §611, collector validation under FDCPA §809, goodwill adjustment for lates) with your details merged in, a 12-month month-by-month rebuild plan adapted to your situation, and a certified-mail checklist.</p>
+      </details>
+      <details class="reveal">
+        <summary>How is this different from a credit repair company?</summary>
+        <p>Credit repair companies charge monthly fees to do what you can do yourself: dispute inaccurate items and build positive history. This kit gives you the letters, the plan, and the knowledge — once, for $47 — and you keep it forever.</p>
+      </details>
+      <details class="reveal">
+        <summary>Is there a subscription?</summary>
+        <p>No. $47 one-time. The kit PDF is yours forever, including template updates.</p>
+      </details>
+      <details class="reveal">
+        <summary>How do I get the kit after paying?</summary>
+        <p>It's generated automatically and emailed to you, usually within minutes. You also get a private link (your access token) where you can download the PDF anytime.</p>
+      </details>
+      <details class="reveal">
+        <summary>What if I have a thin file with nothing negative?</summary>
+        <p>Then the rebuild plan is the main event — the kit adapts: secured card in month 1, building tradelines month by month. The dispute and validation letters are included as "keep on file" templates in case you ever need them.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="final-cta reveal">
+    <h2>Your credit won't fix itself. The letters will.</h2>
+    <p class="sec-sub">Start with the free explainer. Unlock the full kit for $47 when you're ready.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#teaser">Get my free explainer</a>
+      <a class="btn btn-ghost" href="#pricing">Get the $47 kit</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="inner footer-grid">
+    <div class="subscribe-block">
+      <strong>Credit repair tips, occasionally</strong>
+      <p class="muted">One short email when we update the templates or add new letters. No spam — unsubscribe anytime.</p>
+      <form class="subscribe-form" data-subscribe-form novalidate>
+        <div class="subscribe-row">
+          <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address (required)" autocomplete="email">
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+          <p class="subscribe-msg" role="status" hidden></p>
+        </div>
+      </form>
+    </div>
+    <p class="footer-disclaimer"><strong>Disclaimer:</strong> General information only — not legal or financial advice. Consider consulting a licensed attorney or certified financial professional. CreditFix Kit does not guarantee score increases or the removal of any specific item; results vary.</p>
+    <div class="footer-base">
+      <span>© 2026 CreditFix Kit. $47 one-time, honesty included.</span>
+      <span><a href="index.html#faq">FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:info@mehyar.us">Contact</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- Sticky mobile CTA -->
+<div class="sticky-cta" id="sticky-cta" hidden>
+  <span class="sticky-cta-text"><strong>$47</strong> one-time · free explainer first</span>
+  <a class="btn btn-primary" href="#pricing">Get the kit</a>
+</div>
+
+<!-- Buy modal with intake form -->
+<div class="modal" id="buy-modal" hidden>
+  <div class="panel">
+    <button class="modal-close" id="buy-close" aria-label="Close">×</button>
+    <h2>CreditFix Kit — $47 <small style="color:var(--muted);font-weight:400">one-time</small></h2>
+    <p class="muted">Your details personalize the kit: the letters get your name, the plan adapts to your situation.</p>
+    <form id="buy-form" novalidate>
+      <div class="field">
+        <label for="buy-name">Full name — merged into your letters</label>
+        <input type="text" id="buy-name" placeholder="Jordan Smith" autocomplete="name" maxlength="120">
+      </div>
+      <div class="field">
+        <label for="buy-email">Email — your kit PDF goes here</label>
+        <input type="email" id="buy-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label for="buy-situation">Your situation</label>
+        <select id="buy-situation">
+          <option value="collections">Collections on my report</option>
+          <option value="late-payments">Late payments dragging me down</option>
+          <option value="thin-file">Thin file — barely any credit history</option>
+          <option value="mixed">Mixed — collections and late payments</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="buy-state">State (2 letters)</label>
+        <input type="text" id="buy-state" placeholder="NY" maxlength="2" autocomplete="address-level1" style="max-width:120px">
+      </div>
+      <div class="field">
+        <label for="buy-goal">Your goal</label>
+        <select id="buy-goal">
+          <option value="rebuild-general">General rebuild</option>
+          <option value="buy-home">Buying a home</option>
+          <option value="buy-car">Buying a car</option>
+          <option value="lower-rates">Lowering my interest rates</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="buy-accounts">Negative items on your report</label>
+        <textarea id="buy-accounts" rows="4" maxlength="600" placeholder="Midland Credit $1,240 collections opened 2023; Capital One 30-day late Mar 2024"></textarea>
+        <span class="hint">One per line or separated by semicolons. Max 600 characters. These become the disputed items in Letter 1. Leave blank if you're not sure — you can fill them in on the printed letter.</span>
+      </div>
+      <p id="buy-error"></p>
+      <button type="submit" class="btn btn-primary btn-block">Continue to secure checkout — $47</button>
+      <p class="status" style="text-align:center">🔒 Stripe · one-time · not legal advice</p>
+    </form>
+  </div>
+</div>
+
+<!-- Dev payload modal -->
+<div class="modal" id="payload-modal" hidden>
+  <div class="panel" style="max-width:560px">
+    <button class="modal-close" id="payload-close" aria-label="Close">×</button>
+    <h2>Checkout payload</h2>
+    <pre id="payload-pre"></pre>
+    <p class="dev-notice">DEV MODE — no real checkout happened. In production this payload POSTs to the checkout endpoint and Stripe takes over.</p>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  /* reveal-on-scroll */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+
+  /* sticky mobile CTA */
+  var sticky = document.getElementById("sticky-cta");
+  var footer = document.querySelector("footer");
+  function updateSticky() {
+    if (window.innerWidth >= 720) { sticky.hidden = true; return; }
+    var past = window.scrollY > 520;
+    var footVisible = footer && footer.getBoundingClientRect().top < window.innerHeight;
+    sticky.hidden = !(past && !footVisible);
+  }
+  window.addEventListener("scroll", updateSticky, { passive: true });
+  window.addEventListener("resize", updateSticky);
+  updateSticky();
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(function () {});
+  }
+});
+</script>
+</body>
+</html>
