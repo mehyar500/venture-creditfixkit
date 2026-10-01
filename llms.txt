@@ -1,27 +1,44 @@
 # CreditFix Kit
 
-DIY credit repair kit — $47 one-time. https://creditfixkit.mehyar.us/
+DIY credit repair kit: a personalized PDF containing the 5 FICO score factors
+translated to the buyer's situation, 3 mail-ready letter templates (bureau
+dispute under FCRA Sec. 611, collector validation under FDCPA Sec. 809,
+goodwill adjustment for late payments), and a 12-month month-by-month
+rebuild plan adapted to the buyer's situation (collections / late-payments /
+thin-file / mixed). A free score-factor explainer is available with no email
+required. https://creditfixkit.mehyar.us/
 
-## What it is
-A personalized PDF kit: the 5 FICO score factors translated to the buyer's
-situation, 3 mail-ready letter templates (bureau dispute under FCRA Sec. 611,
-collector validation under FDCPA Sec. 809, goodwill adjustment for late
-payments), and a 12-month month-by-month rebuild plan adapted to the buyer's
-situation (collections / late-payments / thin-file / mixed).
+## Key pages
 
-## Honesty rules (site-wide)
-- General information only — not legal or financial advice.
-- No guaranteed score increases, no promised removals. Results vary.
+- / — landing page with free teaser (score-factor explainer) and $47 checkout
+- /success.html — post-Stripe confirmation; polls order status by token
+- /deliverable.html — the buyer's private kit page (token-gated), PDF download
+- /privacy.html — privacy policy
+- /terms.html — terms of service
 
-## Free teaser
-POST /api/creditfix/teaser {situation, goal?} → score-factor explainer +
-locked letter previews. No auth, no email required.
+## Pricing
 
-## Paid flow
-1. Buyer completes intake on the site → POST https://mehyar.us/api/pay/checkout
-   {product_id:"creditfix-kit", email, params:{name,situation,state,goal,accounts},
-   success_url, cancel_url} → Stripe.
-2. Webhook creates creditfixkit_orders (status paid, access_token) and triggers
-   POST /api/creditfix/generate {order_token}.
-3. Buyer downloads the PDF at /api/creditfix/pdf?token= or
-   deliverable.html?token=.
+$47 one-time via Stripe, through the centralized
+https://mehyar.us/api/pay/checkout (product_id "creditfix-kit"). No
+subscription. The personalized PDF is the buyer's forever, including template
+updates.
+
+## API
+
+- POST /api/creditfix/teaser — free: { situation, goal? } → score-factor
+  explainer + locked letter previews. No auth, no email required.
+- POST /api/creditfix/generate — paid: { order_token } → generated kit manifest.
+  Gated on creditfixkit_orders.access_token. Idempotent.
+- GET /api/creditfix/deliverable?token= — token-gated kit manifest JSON.
+- GET /api/creditfix/pdf?token= — token-gated kit PDF download.
+
+## Compliance
+
+Educational information only — not legal or financial advice. The kit is not a
+law firm, attorney, or certified financial planner. No guaranteed score
+increases, no promised removal or correction of any specific item, no outcome
+promises of any kind; results vary by file, creditor, and bureau. Buyers are
+instructed to dispute only items they believe are inaccurate, incomplete, or
+unverifiable, and to consider consulting a licensed attorney or certified
+financial professional before acting, especially before paying or
+acknowledging old debts.
